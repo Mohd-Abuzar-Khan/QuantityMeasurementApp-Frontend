@@ -1,0 +1,171 @@
+<div class="measurement-page">
+  <div class="page-header">
+    <h2 class="page-title">Quantity Measurement</h2>
+    <p class="page-subtitle">Perform conversions, comparisons, and arithmetic on physical quantities.</p>
+  </div>
+
+  <div class="measurement-card">
+    <form [formGroup]="measurementForm" (ngSubmit)="onSubmit()" novalidate>
+
+      <!-- ── Operation selector ──────────────────────────────────────────── -->
+      <div class="form-section">
+        <label class="form-label">Operation</label>
+        <div class="operation-pills">
+          <label
+            *ngFor="let op of operations"
+            class="pill"
+            [class.pill--active]="measurementForm.get('operation')?.value === op.value"
+          >
+            <input
+              type="radio"
+              formControlName="operation"
+              [value]="op.value"
+              class="visually-hidden"
+            />
+            {{ op.label }}
+          </label>
+        </div>
+      </div>
+
+      <!-- ── Two operands ────────────────────────────────────────────────── -->
+      <div class="operands">
+
+        <!-- First operand -->
+        <div class="operand-card">
+          <h3 class="operand-title">First Quantity</h3>
+
+          <div class="form-group">
+            <label for="thisMeasurementType">Type</label>
+            <select
+              id="thisMeasurementType"
+              formControlName="thisMeasurementType"
+              (change)="onMeasurementTypeChange('this')"
+            >
+              <option *ngFor="let t of measurementTypes" [value]="t">{{ t }}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="thisUnit">Unit</label>
+            <select id="thisUnit" formControlName="thisUnit">
+              <option *ngFor="let u of thisUnits" [value]="u">{{ u }}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="thisValue">Value</label>
+            <input
+              id="thisValue"
+              formControlName="thisValue"
+              type="number"
+              placeholder="Enter value"
+              step="any"
+            />
+            <span class="form-error"
+              *ngIf="measurementForm.get('thisValue')?.invalid && measurementForm.get('thisValue')?.touched">
+              Value is required.
+            </span>
+          </div>
+        </div>
+
+        <!-- Divider / operator symbol -->
+        <div class="operand-divider" aria-hidden="true">
+          <span class="operator-symbol">⇄</span>
+        </div>
+
+        <!-- Second operand -->
+        <div class="operand-card">
+          <h3 class="operand-title">{{ isConvertMode ? 'Target unit' : 'Second Quantity' }}</h3>
+
+          <div class="form-group">
+            <label for="thatMeasurementType">Type</label>
+            <select
+              id="thatMeasurementType"
+              formControlName="thatMeasurementType"
+              (change)="onMeasurementTypeChange('that')"
+            >
+              <option *ngFor="let t of measurementTypes" [value]="t">{{ t }}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="thatUnit">Unit</label>
+            <select id="thatUnit" formControlName="thatUnit">
+              <option *ngFor="let u of thatUnits" [value]="u">{{ u }}</option>
+            </select>
+          </div>
+
+          <div class="form-group" *ngIf="!isConvertMode">
+            <label for="thatValue">Value</label>
+            <input
+              id="thatValue"
+              formControlName="thatValue"
+              type="number"
+              placeholder="Enter value"
+              step="any"
+            />
+            <span class="form-error"
+              *ngIf="measurementForm.get('thatValue')?.invalid && measurementForm.get('thatValue')?.touched">
+              Value is required.
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Error message ───────────────────────────────────────────────── -->
+      <div class="alert alert--error" *ngIf="errorMessage" role="alert">
+        <span>⚠</span> {{ errorMessage }}
+      </div>
+
+      <!-- ── Action buttons ─────────────────────────────────────────────── -->
+      <div class="form-actions">
+        <button type="button" class="btn btn--secondary" (click)="onReset()">Reset</button>
+        <button type="submit" class="btn btn--primary" [disabled]="isLoading">
+          <span *ngIf="!isLoading">Calculate</span>
+          <span *ngIf="isLoading" class="spinner" aria-label="Calculating…"></span>
+        </button>
+      </div>
+
+    </form>
+
+    <!-- ── Result panel ────────────────────────────────────────────────── -->
+    <div class="result-panel" *ngIf="result && !result.error">
+      <h3 class="result-title">Result</h3>
+
+      <!-- Compare result -->
+      <div *ngIf="isCompareResult" class="result-compare">
+        <span
+          class="result-badge"
+          [class.result-badge--true]="result.resultString === 'true'"
+          [class.result-badge--false]="result.resultString === 'false'"
+        >
+          {{ result.resultString === 'true' ? '✓ Equal' : '✗ Not Equal' }}
+        </span>
+        <p class="result-detail">
+          {{ result.thisValue }} {{ result.thisUnit }}
+          {{ result.resultString === 'true' ? '=' : '≠' }}
+          {{ result.thatValue }} {{ result.thatUnit }}
+        </p>
+      </div>
+
+      <!-- Numeric result (add, subtract, divide, convert) -->
+      <div *ngIf="!isCompareResult" class="result-numeric">
+        <div class="result-value">
+          {{ result.resultValue | number:'1.0-6' }}
+          <span class="result-unit">{{ result.resultUnit }}</span>
+        </div>
+        <p class="result-detail">
+          Operation: <strong>{{ result.operation }}</strong>
+          &nbsp;|&nbsp;
+          Type: <strong>{{ result.resultMeasurementType }}</strong>
+        </p>
+      </div>
+    </div>
+
+    <!-- Error result from backend -->
+    <div class="result-panel result-panel--error" *ngIf="result?.error">
+      <p>{{ result?.errorMessage }}</p>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,46 @@
+<header class="app-header">
+  <div class="header-inner">
+
+    <!-- Logo / brand -->
+    <a class="brand" routerLink="/dashboard" (click)="closeMenu()">
+      <span class="brand-icon">📐</span>
+      <span class="brand-name">QMA</span>
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="nav-desktop" aria-label="Main navigation">
+      <a class="nav-link" routerLink="/dashboard"   routerLinkActive="nav-link--active">Dashboard</a>
+      <a class="nav-link" routerLink="/history"     routerLinkActive="nav-link--active">History</a>
+    </nav>
+
+    <!-- User info + logout (desktop) -->
+    <div class="header-actions" *ngIf="currentUser$ | async as user">
+      <span class="user-chip">{{ user.username }}</span>
+      <button class="btn-logout" (click)="logout()">Sign out</button>
+    </div>
+
+    <!-- Hamburger (mobile) -->
+    <button
+      class="hamburger"
+      [class.hamburger--open]="menuOpen"
+      (click)="toggleMenu()"
+      aria-label="Toggle menu"
+      [attr.aria-expanded]="menuOpen"
+    >
+      <span></span><span></span><span></span>
+    </button>
+
+  </div>
+
+  <!-- Mobile drawer -->
+  <nav
+    class="nav-mobile"
+    [class.nav-mobile--open]="menuOpen"
+    aria-label="Mobile navigation"
+  >
+    <a class="nav-link" routerLink="/dashboard"   routerLinkActive="nav-link--active" (click)="closeMenu()">Dashboard</a>
+    <a class="nav-link" routerLink="/history"     routerLinkActive="nav-link--active" (click)="closeMenu()">History</a>
+    <button class="btn-logout btn-logout--mobile" (click)="logout()">Sign out</button>
+  </nav>
+
+</header>

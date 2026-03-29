@@ -1,0 +1,138 @@
+<div class="history-page">
+  <div class="page-header">
+    <h2 class="page-title">Operation History</h2>
+    <p class="page-subtitle">Browse and filter all past quantity measurement operations.</p>
+  </div>
+
+  <!-- ── Filters ─────────────────────────────────────────────────────────── -->
+  <form [formGroup]="filterForm" class="filter-bar">
+
+    <div class="filter-group">
+      <label for="opFilter">Operation</label>
+      <select id="opFilter" formControlName="operation">
+        <option *ngFor="let o of operationOptions" [value]="o.value">{{ o.label }}</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="typeFilter">Measurement Type</label>
+      <select id="typeFilter" formControlName="measurementType">
+        <option *ngFor="let t of typeOptions" [value]="t.value">{{ t.label }}</option>
+      </select>
+    </div>
+
+    <button type="button" class="btn btn--icon" (click)="fetchRecords()" title="Refresh">
+      ↻ Refresh
+    </button>
+
+  </form>
+
+  <!-- ── Loading ─────────────────────────────────────────────────────────── -->
+  <div class="loading-state" *ngIf="isLoading" aria-live="polite">
+    <div class="spinner-medium"></div>
+    <span>Loading records…</span>
+  </div>
+
+  <!-- ── Error ───────────────────────────────────────────────────────────── -->
+  <div class="alert alert--error" *ngIf="errorMessage && !isLoading" role="alert">
+    ⚠ {{ errorMessage }}
+  </div>
+
+  <!-- ── Empty state ─────────────────────────────────────────────────────── -->
+  <div class="empty-state" *ngIf="!isLoading && !errorMessage && records.length === 0">
+    <span class="empty-icon">📋</span>
+    <p>No records found for the selected filters.</p>
+  </div>
+
+  <!-- ── Records table ───────────────────────────────────────────────────── -->
+  <div class="table-wrapper" *ngIf="!isLoading && records.length > 0">
+    <table class="history-table" aria-label="Operation history">
+      <thead>
+        <tr>
+          <th scope="col">Operation</th>
+          <th scope="col">First Quantity</th>
+          <th scope="col">Second Quantity</th>
+          <th scope="col">Result</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of pagedRecords" [class.row--error]="r.error">
+
+          <!-- Operation badge -->
+          <td>
+            <span class="op-badge" [attr.data-op]="r.operation">
+              {{ r.operation }}
+            </span>
+          </td>
+
+          <!-- First operand -->
+          <td>
+            <span class="quantity-display">
+              {{ r.thisValue }} {{ r.thisUnit }}
+              <small>{{ r.thisMeasurementType }}</small>
+            </span>
+          </td>
+
+          <!-- Second operand -->
+          <td>
+            <span class="quantity-display">
+              {{ r.thatValue }} {{ r.thatUnit }}
+              <small>{{ r.thatMeasurementType }}</small>
+            </span>
+          </td>
+
+          <!-- Result -->
+          <td>
+            <!-- Compare result -->
+            <ng-container *ngIf="r.operation === 'COMPARE'; else numericResult">
+              <span class="result-badge"
+                [class.result-badge--true]="r.resultString === 'true'"
+                [class.result-badge--false]="r.resultString === 'false'">
+                {{ r.resultString === 'true' ? '✓ Equal' : '✗ Not Equal' }}
+              </span>
+            </ng-container>
+            <!-- Numeric result -->
+            <ng-template #numericResult>
+              <span *ngIf="!r.error && r.resultValue !== null">
+                {{ r.resultValue | number:'1.0-4' }} {{ r.resultUnit }}
+              </span>
+              <span class="error-text" *ngIf="r.error">{{ r.errorMessage }}</span>
+            </ng-template>
+          </td>
+
+          <!-- Status -->
+          <td>
+            <span class="status-badge" [class.status-badge--error]="r.error">
+              {{ r.error ? 'Error' : 'OK' }}
+            </span>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ── Pagination ─────────────────────────────────────────────────────── -->
+    <div class="pagination" *ngIf="totalPages > 1">
+      <button class="page-btn" (click)="prevPage()" [disabled]="currentPage === 1">‹</button>
+
+      <button
+        *ngFor="let p of pages"
+        class="page-btn"
+        [class.page-btn--active]="p === currentPage"
+        (click)="goToPage(p)"
+      >
+        {{ p }}
+      </button>
+
+      <button class="page-btn" (click)="nextPage()" [disabled]="currentPage === totalPages">›</button>
+    </div>
+
+    <!-- Record count -->
+    <p class="record-count">
+      Showing {{ (currentPage - 1) * pageSize + 1 }}–{{ Math.min(currentPage * pageSize, records.length) }}
+      of {{ records.length }} records
+    </p>
+
+  </div>
+</div>
