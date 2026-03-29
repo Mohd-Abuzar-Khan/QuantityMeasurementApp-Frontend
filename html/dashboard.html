@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quantity Measurement — Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+  <link rel="script" href="script.js" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    </div>
+    <div>
+      <div class="logo-text">QM</div>
+      <div class="logo-sub">Measurement</div>
+    </div>
+  </div>
+
+  <div class="nav-label">Main</div>
+  <a class="nav-item active" href="#">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+    Dashboard
+  </a>
+
+
+  <div class="sidebar-bottom">
+    <div class="user-chip" onclick="window.location.href='index.html'">
+      <div class="avatar">U</div>
+      <div class="user-info">
+        <div class="user-name">User</div>
+        <div class="user-email">user@example.com</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-title">WELCOME TO QUANTITY MEASUREMENT</div>
+    <div class="topbar-right">
+      <button class="btn-logout" onclick="window.location.href='index.html'">Sign out</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-label">Conversions Today</div>
+        <div class="stat-value">24</div>
+        <div class="stat-change">↑ 8 from yesterday</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Most Used Type</div>
+        <div class="stat-value">Length</div>
+        <div class="stat-change">↑ 12 uses</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Calculations</div>
+        <div class="stat-value">312</div>
+        <div class="stat-change">↑ All time</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Accuracy Rate</div>
+        <div class="stat-value">100%</div>
+        <div class="stat-change">↑ Always</div>
+      </div>
+    </div>
+
+    <!-- Choose Type -->
+    <div class="section-label">Choose Type</div>
+    <div class="type-grid" id="typeGrid">
+      <div class="type-card active" data-type="length" onclick="selectType(this,'length')">
+        <div class="type-icon">📏</div>
+        <div>
+          <div class="type-name">Length</div>
+          <div class="type-desc">mm, cm, m, km, in, ft, mi</div>
+        </div>
+      </div>
+      <div class="type-card" data-type="weight" onclick="selectType(this,'weight')">
+        <div class="type-icon">⚖️</div>
+        <div>
+          <div class="type-name">Weight</div>
+          <div class="type-desc">mg, g, kg, lb, oz, ton</div>
+        </div>
+      </div>
+      <div class="type-card" data-type="temperature" onclick="selectType(this,'temperature')">
+        <div class="type-icon">🌡️</div>
+        <div>
+          <div class="type-name">Temperature</div>
+          <div class="type-desc">°C, °F, K</div>
+        </div>
+      </div>
+      <div class="type-card" data-type="volume" onclick="selectType(this,'volume')">
+        <div class="type-icon">🧪</div>
+        <div>
+          <div class="type-name">Volume</div>
+          <div class="type-desc">mL, L, fl oz, cup, gal</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Choose Action -->
+    <div class="section-label">Choose Action</div>
+    <div class="action-row" id="actionRow">
+      <button class="tab-btn active" onclick="switchTab(this,'comparison')">Comparison</button>
+      <button class="tab-btn" onclick="switchTab(this,'conversion')">Conversion</button>
+      <button class="tab-btn" onclick="switchTab(this,'arithmetic')">Arithmetic</button>
+    </div>
+
+    <!-- COMPARISON TAB -->
+    <div class="tab-panel visible" id="tab-comparison">
+      <div class="panel-grid">
+        <div class="panel">
+          <h3>Input Values</h3>
+          <div class="input-row">
+            <div class="input-with-unit">
+              <span class="input-label">From</span>
+              <input class="val-input" id="cmpFrom" type="number" value="1" oninput="runComparison()"/>
+              <select class="unit-select" id="cmpFromUnit" onchange="runComparison()">
+                <option>Kilometer</option><option>Meter</option><option>Centimeter</option><option>Millimeter</option><option>Mile</option><option>Foot</option><option>Inch</option>
+              </select>
+            </div>
+            <div class="input-with-unit">
+              <span class="input-label">To</span>
+              <input class="val-input" id="cmpTo" type="number" value="1000" oninput="runComparison()"/>
+              <select class="unit-select" id="cmpToUnit" onchange="runComparison()">
+                <option selected>Meter</option><option>Kilometer</option><option>Centimeter</option><option>Millimeter</option><option>Mile</option><option>Foot</option><option>Inch</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="compare-result">
+          <div style="font-size:13px;color:var(--sub);font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Result</div>
+          <div class="compare-symbol" id="cmpSymbol">=</div>
+          <div class="compare-desc" id="cmpDesc">1 Kilometer = 1000 Meter</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONVERSION TAB -->
+    <div class="tab-panel" id="tab-conversion">
+      <div class="panel-grid">
+        <div class="panel">
+          <h3>Convert</h3>
+          <div class="input-row">
+            <div class="input-with-unit">
+              <span class="input-label">Value</span>
+              <input class="val-input" id="convVal" type="number" value="1" oninput="runConversion()"/>
+              <select class="unit-select" id="convFromUnit" onchange="runConversion()">
+                <option>Kilometer</option><option>Meter</option><option>Centimeter</option><option>Millimeter</option><option>Mile</option><option>Foot</option><option>Inch</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>Result</h3>
+          <div id="convResults" style="display:flex;flex-direction:column;gap:8px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ARITHMETIC TAB -->
+    <div class="tab-panel" id="tab-arithmetic">
+      <div class="panel-grid">
+        <div class="panel">
+          <h3>Arithmetic</h3>
+          <div class="arith-ops" id="arithOps">
+            <div class="op-btn active" onclick="selectOp(this,'+')">+</div>
+            <div class="op-btn" onclick="selectOp(this,'-')">−</div>
+            <div class="op-btn" onclick="selectOp(this,'*')">×</div>
+            <div class="op-btn" onclick="selectOp(this,'/')">÷</div>
+          </div>
+          <div class="input-row">
+            <div class="input-with-unit">
+              <span class="input-label">A</span>
+              <input class="val-input" id="arithA" type="number" value="5" oninput="runArith()"/>
+              <select class="unit-select" id="arithAUnit" onchange="runArith()">
+                <option>m</option><option>km</option><option>cm</option><option>mm</option>
+              </select>
+            </div>
+            <div class="input-with-unit">
+              <span class="input-label">B</span>
+              <input class="val-input" id="arithB" type="number" value="3" oninput="runArith()"/>
+              <select class="unit-select" id="arithBUnit" onchange="runArith()">
+                <option>m</option><option>km</option><option>cm</option><option>mm</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="result-box" id="arithResultBox">
+          <div class="result-label">Result</div>
+          <div class="result-value" id="arithResult">8</div>
+          <div class="result-unit" id="arithUnit">m</div>
+          <div class="result-equation" id="arithEq">5 m + 3 m = 8 m</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- History -->
+    <div class="section-label" style="margin-top:8px;">Recent History</div>
+    <div class="history-list">
+      <div class="history-item">
+        <div class="history-left"><div class="history-dot"></div><div><div class="history-text">1 Kilometer → Meters</div><div class="history-time">Today, 2:34 PM</div></div></div>
+        <div class="history-value">1000 m</div>
+      </div>
+      <div class="history-item">
+        <div class="history-left"><div class="history-dot" style="background:#FBBC05"></div><div><div class="history-text">100°C → Fahrenheit</div><div class="history-time">Today, 1:12 PM</div></div></div>
+        <div class="history-value">212 °F</div>
+      </div>
+      <div class="history-item">
+        <div class="history-left"><div class="history-dot" style="background:#4285F4"></div><div><div class="history-text">500 mL → Liters</div><div class="history-time">Today, 11:50 AM</div></div></div>
+        <div class="history-value">0.5 L</div>
+      </div>
+      <div class="history-item">
+        <div class="history-left"><div class="history-dot" style="background:#34A853"></div><div><div class="history-text">2.5 kg → Pounds</div><div class="history-time">Yesterday, 4:20 PM</div></div></div>
+        <div class="history-value">5.51 lb</div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+
+</body>
+	<script>
+	  // ─── UNIT DATA ───
+	  const units = {
+	    length: {
+	      Kilometer:  1000, Meter: 1, Centimeter: 0.01,
+	      Millimeter: 0.001, Mile: 1609.34, Foot: 0.3048, Inch: 0.0254
+	    },
+	    weight: {
+	      Kilogram: 1, Gram: 0.001, Milligram: 0.000001,
+	      Pound: 0.453592, Ounce: 0.0283495, Ton: 1000
+	    },
+	    temperature: { Celsius: 'C', Fahrenheit: 'F', Kelvin: 'K' },
+	    volume: {
+	      Liter: 1, Milliliter: 0.001, 'Fluid Ounce': 0.0295735,
+	      Cup: 0.236588, Gallon: 3.78541
+	    }
+	  };
+	
+	  let activeType = 'length';
+	  let activeOp = '+';
+	
+	  function selectType(el, type) {
+	    document.querySelectorAll('.type-card').forEach(c => c.classList.remove('active'));
+	    el.classList.add('active');
+	    activeType = type;
+	    updateUnits();
+	    runComparison();
+	    runConversion();
+	    runArith();
+	  }
+	
+	  function updateUnits() {
+	    const typeUnits = {
+	      length: ['Kilometer','Meter','Centimeter','Millimeter','Mile','Foot','Inch'],
+	      weight: ['Kilogram','Gram','Milligram','Pound','Ounce','Ton'],
+	      temperature: ['Celsius','Fahrenheit','Kelvin'],
+	      volume: ['Liter','Milliliter','Fluid Ounce','Cup','Gallon']
+	    };
+	    const list = typeUnits[activeType] || [];
+	
+	    ['cmpFromUnit','cmpToUnit','convFromUnit'].forEach(id => {
+	      const sel = document.getElementById(id);
+	      if (!sel) return;
+	      sel.innerHTML = list.map(u => `<option>${u}</option>`).join('');
+	    });
+	    if (document.getElementById('cmpToUnit') && list[1]) document.getElementById('cmpToUnit').selectedIndex = 1;
+	
+	    ['arithAUnit','arithBUnit'].forEach(id => {
+	      const sel = document.getElementById(id);
+	      if (!sel) return;
+	      const short = { length:['m','km','cm','mm'], weight:['kg','g','mg','lb'], temperature:['°C','°F','K'], volume:['L','mL','fl oz','cup'] };
+	      sel.innerHTML = (short[activeType]||[]).map(u => `<option>${u}</option>`).join('');
+	    });
+	  }
+	
+	  function switchTab(btn, tab) {
+	    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+	    btn.classList.add('active');
+	    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('visible'));
+	    document.getElementById('tab-' + tab).classList.add('visible');
+	  }
+	
+	  function selectOp(el, op) {
+	    document.querySelectorAll('.op-btn').forEach(b => b.classList.remove('active'));
+	    el.classList.add('active');
+	    activeOp = op;
+	    runArith();
+	  }
+	
+	  function toBase(val, unit) {
+	    const map = units[activeType];
+	    if (!map) return val;
+	    const factor = map[unit];
+	    if (factor === undefined) return val;
+	    if (typeof factor === 'string') return convertTemp(val, unit, 'base');
+	    return val * factor;
+	  }
+	
+	  function convertTemp(val, fromUnit, toUnit) {
+	    let c;
+	    if (fromUnit === 'Celsius') c = val;
+	    else if (fromUnit === 'Fahrenheit') c = (val - 32) * 5/9;
+	    else c = val - 273.15;
+	    if (toUnit === 'Celsius') return c;
+	    if (toUnit === 'Fahrenheit') return c * 9/5 + 32;
+	    return c + 273.15;
+	  }
+	
+	  function runComparison() {
+	    const a = parseFloat(document.getElementById('cmpFrom').value) || 0;
+	    const b = parseFloat(document.getElementById('cmpTo').value) || 0;
+	    const ua = document.getElementById('cmpFromUnit').value;
+	    const ub = document.getElementById('cmpToUnit').value;
+	
+	    let ba, bb;
+	    if (activeType === 'temperature') {
+	      ba = convertTemp(a, ua, 'Celsius');
+	      bb = convertTemp(b, ub, 'Celsius');
+	    } else {
+	      ba = toBase(a, ua);
+	      bb = toBase(b, ub);
+	    }
+	
+	    const sym = ba < bb ? '<' : ba > bb ? '>' : '=';
+	    const desc = ba < bb ? `${a} ${ua} is less than ${b} ${ub}` :
+	                 ba > bb ? `${a} ${ua} is greater than ${b} ${ub}` :
+	                 `${a} ${ua} equals ${b} ${ub}`;
+	
+	    document.getElementById('cmpSymbol').textContent = sym;
+	    document.getElementById('cmpDesc').textContent = desc;
+	  }
+	
+	  function runConversion() {
+	    const val = parseFloat(document.getElementById('convVal').value) || 0;
+	    const fromUnit = document.getElementById('convFromUnit').value;
+	
+	    const typeUnits = {
+	      length: ['Kilometer','Meter','Centimeter','Millimeter','Mile','Foot','Inch'],
+	      weight: ['Kilogram','Gram','Milligram','Pound','Ounce','Ton'],
+	      temperature: ['Celsius','Fahrenheit','Kelvin'],
+	      volume: ['Liter','Milliliter','Fluid Ounce','Cup','Gallon']
+	    };
+	
+	    const targets = (typeUnits[activeType] || []).filter(u => u !== fromUnit);
+	    const container = document.getElementById('convResults');
+	    container.innerHTML = '';
+	
+	    targets.slice(0,6).forEach(toUnit => {
+	      let result;
+	      if (activeType === 'temperature') {
+	        result = convertTemp(val, fromUnit, toUnit);
+	      } else {
+	        const baseVal = toBase(val, fromUnit);
+	        const toFactor = units[activeType][toUnit];
+	        result = baseVal / toFactor;
+	      }
+	      const formatted = Math.abs(result) >= 1000 || (Math.abs(result) > 0 && Math.abs(result) < 0.001)
+	        ? result.toExponential(3) : parseFloat(result.toFixed(6));
+	
+	      const row = document.createElement('div');
+	      row.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#F8F7F5;border-radius:10px;font-size:14px;';
+	      row.innerHTML = `<span style="color:var(--sub)">${toUnit}</span><span style="font-weight:700;color:var(--red)">${formatted}</span>`;
+	      container.appendChild(row);
+	    });
+	  }
+	
+	  function runArith() {
+	    const a = parseFloat(document.getElementById('arithA').value) || 0;
+	    const b = parseFloat(document.getElementById('arithB').value) || 0;
+	    const uA = document.getElementById('arithAUnit').value;
+	    const uB = document.getElementById('arithBUnit').value;
+	    const opSymbols = {'+':'+','-':'−','*':'×','/':'÷'};
+	
+	    let result;
+	    if (activeOp === '+') result = a + b;
+	    else if (activeOp === '-') result = a - b;
+	    else if (activeOp === '*') result = a * b;
+	    else result = b !== 0 ? a / b : NaN;
+	
+	    const resStr = isNaN(result) ? '∞' : parseFloat(result.toFixed(6));
+	    document.getElementById('arithResult').textContent = resStr;
+	    document.getElementById('arithUnit').textContent = uA;
+	    document.getElementById('arithEq').textContent = `${a} ${uA} ${opSymbols[activeOp]} ${b} ${uB} = ${resStr} ${uA}`;
+	  }
+	
+	  // init
+	  runComparison();
+	  runConversion();
+	  runArith();
+	</script>
+</html>
