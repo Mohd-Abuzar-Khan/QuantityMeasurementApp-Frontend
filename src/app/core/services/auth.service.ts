@@ -11,20 +11,6 @@ import {
   RegisterRequest,
 } from '@core/models/auth.models';
 
-/**
- * AuthService – single source of truth for authentication state.
- *
- * Responsibilities:
- *  - Login, register, and logout via the backend REST API.
- *  - Persist the JWT and current user in localStorage so the session
- *    survives a page refresh.
- *  - Expose a reactive {@link currentUser$} stream so any component
- *    can react to login/logout without polling.
- *  - Provide helper accessors for the raw token (used by the HTTP interceptor).
- *
- * Token storage key constants are centralised here to avoid magic strings
- * scattered across the codebase.
- */
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
@@ -111,6 +97,14 @@ export class AuthService {
   }
 
   /**
+   * Initiates OAuth2 login flow with Google.
+   * Redirects to the authorization endpoint configured in the environment.
+   */
+  loginWithGoogle(): void {
+    window.location.href = environment.oauth2GoogleUrl;
+  }
+
+  /**
    * Handles the JWT token received via the OAuth2 callback URL.
    * Called by the OAuth2CallbackComponent after extracting the token
    * from the query string.
@@ -163,12 +157,17 @@ export class AuthService {
    * reactive stream.  Called after every successful authentication.
    */
   private handleAuthSuccess(response: AuthResponse, redirectTo: string): void {
+    const jwt = response.accessToken ?? response.token;
+    if (!jwt) {
+      console.error('Auth response missing token field', response);
+      throw new Error('Invalid auth response: no token');
+    }
     const user: CurrentUser = {
       username: response.username,
       email:    response.email,
-      token:    response.accessToken,
+      token:    jwt,
     };
-    this.persistSession(response.accessToken, user);
+    this.persistSession(jwt, user);
     this.currentUserSubject.next(user);
     this.navigateAfterAuth(redirectTo);
   }

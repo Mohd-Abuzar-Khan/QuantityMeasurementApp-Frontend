@@ -1,7 +1,3 @@
-/**
- * @file auth.models.ts
- * Strongly-typed interfaces for all authentication-related API payloads.
- */
 
 /** Payload sent to POST /api/v1/auth/login */
 export interface LoginRequest {
@@ -19,8 +15,11 @@ export interface RegisterRequest {
 
 /** Response body returned by both /login and /register */
 export interface AuthResponse {
-  accessToken: string;
-  tokenType: string;   // always "Bearer"
+  /** Spring Boot auth-service returns this field name */
+  token?: string;
+  /** Optional alias if you add it on the server later */
+  accessToken?: string;
+  tokenType?: string;
   username: string;
   email: string;
 }

@@ -119,9 +119,16 @@ export class SignupComponent implements OnInit {
         this.isLoading = false;
       },
       error: (err) => {
-        this.isLoading    = false;
+        this.isLoading = false;
+        const body = err.error;
+        const validation =
+          Array.isArray(body?.messages) ? body.messages.join(' ') : null;
         this.errorMessage =
-          err.error?.message ?? 'Registration failed. Please try again.';
+          body?.message ??
+          validation ??
+          (err.status === 0
+            ? 'Cannot reach the server. Start Eureka, API Gateway (8080), and auth-service — or check the browser console.'
+            : `Registration failed (${err.status ?? 'error'}). Please try again.`);
       },
     });
   }

@@ -4,21 +4,7 @@ import { map } from 'rxjs/operators';
 
 import { AuthService } from '@core/services/auth.service';
 
-/**
- * AppComponent – root component / shell of the application.
- *
- * The template provides the top-level layout:
- *   ┌──────────────────────────────────────┐
- *   │  <app-header>  (shown when logged in) │
- *   ├──────────────────────────────────────┤
- *   │  <router-outlet>  (feature pages)     │
- *   ├──────────────────────────────────────┤
- *   │  <app-notification>  (global toasts)  │
- *   └──────────────────────────────────────┘
- *
- * The header is conditionally rendered via the {@code isAuthenticated$} stream
- * so it is hidden on the login/register pages.
- */
+
 @Component({
   selector: 'app-root',
   template: `

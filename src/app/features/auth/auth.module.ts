@@ -6,15 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent }          from './components/login/login.component';
 import { SignupComponent }          from './components/signup/signup.component';
 
-/**
- * Auth routes:
- *  /auth/login          → LoginComponent
- *  /auth/register       → SignupComponent
- *  /auth                → redirect to /auth/login
- *
- *  /oauth2/callback is registered in AppRoutingModule so it matches the backend
- *  {@code app.oauth2.redirect-uri} exactly.
- */
+
 const routes: Routes = [
   { path: '',        redirectTo: 'login', pathMatch: 'full' },
   { path: 'login',   component: LoginComponent },

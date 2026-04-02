@@ -9,28 +9,7 @@ import {
 
 import { AuthService } from '@core/services/auth.service';
 
-/**
- * AuthGuard – protects routes that require an authenticated user.
- *
- * <h3>Behaviour:</h3>
- * <ul>
- *   <li>If the user is authenticated → allow navigation.</li>
- *   <li>If not → redirect to {@code /auth/login}, preserving the originally
- *       requested URL as a {@code returnUrl} query parameter so the user is
- *       sent back after a successful login.</li>
- * </ul>
- *
- * <h3>Usage in app-routing.module.ts:</h3>
- * <pre>
- *   {
- *     path: 'dashboard',
- *     canActivate: [AuthGuard],
- *     canActivateChild: [AuthGuard],
- *     loadChildren: () => import('./features/dashboard/dashboard.module')
- *                           .then(m => m.DashboardModule),
- *   }
- * </pre>
- */
+
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate, CanActivateChild {
 

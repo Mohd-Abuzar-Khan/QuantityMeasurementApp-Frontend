@@ -11,24 +11,7 @@ import { catchError } from 'rxjs/operators';
 
 import { AuthService } from '@core/services/auth.service';
 
-/**
- * ErrorInterceptor – centralised HTTP error handling.
- *
- * <h3>Behaviour by status code:</h3>
- * <ul>
- *   <li><b>401 Unauthorized</b> – The token is missing, expired, or invalid.
- *       The user is logged out and redirected to the login page.</li>
- *   <li><b>403 Forbidden</b>   – The user is authenticated but lacks the
- *       required role.  Logged to console (extend to show a UI notification).</li>
- *   <li><b>All others</b>      – The error is re-thrown so the calling
- *       component's error handler can display an appropriate message.</li>
- * </ul>
- *
- * <p>Register alongside {@link JwtInterceptor} in app providers:
- * <pre>
- *   { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
- * </pre>
- */
+
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 

@@ -4,20 +4,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@core/guards/auth.guard';
 import { OAuth2CallbackComponent } from './features/auth/components/oauth2-callback/oauth2-callback.component';
 
-/**
- * Root routing configuration.
- *
- * All feature modules are lazy-loaded to reduce the initial bundle size.
- * Protected routes are wrapped with {@link AuthGuard}.
- *
- * Route hierarchy:
- * ├── /auth          → AuthModule        (public: login, signup, oauth2 callback)
- * ├── /dashboard     → DashboardModule   (protected)
- * ├── /measurement   → MeasurementModule (protected)
- * ├── /history       → HistoryModule     (protected)
- * └── **             → redirect to /dashboard
- */
+
 const routes: Routes = [
+
+   {
+    path: 'oauth2/callback',        // matches http://localhost:4200/oauth2/callback
+    component: OAuth2CallbackComponent
+  },
+
+
   // ── Default redirect ───────────────────────────────────────────────────────
   {
     path: '',

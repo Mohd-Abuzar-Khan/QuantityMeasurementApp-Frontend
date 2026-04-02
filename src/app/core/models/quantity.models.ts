@@ -1,7 +1,4 @@
-/**
- * @file quantity.models.ts
- * Strongly-typed interfaces that mirror the backend DTOs for quantity measurement operations.
- */
+
 
 /** Supported measurement type discriminators (must match backend enum names) */
 export type MeasurementType =

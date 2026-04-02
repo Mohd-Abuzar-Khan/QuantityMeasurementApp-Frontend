@@ -9,17 +9,7 @@ import {
   OperationType,
 } from '@core/models/quantity.models';
 
-/**
- * QuantityService – thin façade over the backend {@code /api/v1/quantities} endpoints.
- *
- * All methods return cold Observables; the caller subscribes and handles
- * loading/error state (typically via the async pipe or explicit subscribe in
- * a component).  No caching is applied because measurement results are
- * inherently ephemeral.
- *
- * Error handling is centralised in the HTTP interceptor
- * ({@link ErrorInterceptor}); this service does not swallow errors.
- */
+
 @Injectable({ providedIn: 'root' })
 export class QuantityService {
 

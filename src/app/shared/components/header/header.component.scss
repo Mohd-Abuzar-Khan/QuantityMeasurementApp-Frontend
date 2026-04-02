@@ -93,9 +93,9 @@ $h:       64px;
 
 .btn-logout {
   padding:       7px 16px;
-  background:    $white;
-  color:         $sub;
-  border:        1.5px solid $border;
+  background:    $red;
+  color:         $white;
+  border:        1.5px solid $red;
   border-radius: 8px;
   font-size:     13px;
   font-weight:   600;
@@ -103,8 +103,8 @@ $h:       64px;
   transition:    all 0.15s;
 
   &:hover {
-    border-color: $red;
-    color:        $red;
+    background: darken($red, 10%);
+    border-color: darken($red, 10%);
   }
 
   &--mobile {

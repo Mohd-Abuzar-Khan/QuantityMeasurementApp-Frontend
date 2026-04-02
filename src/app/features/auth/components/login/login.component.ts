@@ -9,20 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService }    from '@core/services/auth.service';
 import { environment }    from '@environments/environment';
 
-/**
- * LoginComponent – handles the user login form.
- *
- * Features:
- *  - Reactive form with username + password, both required.
- *  - Displays inline validation messages before submission.
- *  - Shows a server-side error message on failed login.
- *  - Preserves the {@code returnUrl} query param so the user is redirected
- *    to the page they originally requested after login.
- *  - Google OAuth2 login button links directly to the Spring Boot OAuth2 flow.
- *
- * The actual navigation after successful login is handled inside
- * {@link AuthService#login} (which calls {@code router.navigate(['/dashboard'])}).
- */
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

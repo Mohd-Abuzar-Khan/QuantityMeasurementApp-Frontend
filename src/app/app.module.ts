@@ -12,19 +12,9 @@ import { ErrorInterceptor } from '@core/interceptors/error.interceptor';
 import { HeaderComponent }       from '@shared/components/header/header.component';
 import { NotificationComponent } from '@shared/components/notification/notification.component';
 import { OAuth2CallbackComponent } from './features/auth/components/oauth2-callback/oauth2-callback.component';
+import { AuthInterceptor } from '@core/interceptors/auth.interceptor';
 
-/**
- * Root application module.
- *
- * Responsibilities:
- *  - Bootstrap the root component.
- *  - Import cross-cutting modules (HTTP, routing, animations).
- *  - Register global HTTP interceptors (JWT injection, error handling).
- *  - Declare shared components that appear in the root layout (header, footer).
- *
- * Feature modules (Auth, Dashboard, Measurement, History) are lazy-loaded via
- * the router and are NOT imported here.
- */
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,6 +33,12 @@ import { OAuth2CallbackComponent } from './features/auth/components/oauth2-callb
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor,   multi: true },
     // Handle 401/403 responses globally
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent],
 })
