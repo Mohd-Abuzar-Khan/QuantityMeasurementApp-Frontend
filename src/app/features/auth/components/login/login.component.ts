@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
 
   /** Expose to the template for the Google OAuth2 button href */
   readonly googleLoginUrl = environment.oauth2GoogleUrl;
+  readonly githubLoginUrl = environment.oauth2GithubUrl;
 
   constructor(
     private readonly fb:          FormBuilder,
@@ -59,7 +60,7 @@ export class LoginComponent implements OnInit {
 
     const oauthErr = this.route.snapshot.queryParams['error'];
     if (oauthErr === 'oauth2_failed') {
-      this.errorMessage = 'Google sign-in was cancelled or did not complete.';
+      this.errorMessage = 'OAuth sign-in was cancelled or did not complete.';
     } else if (oauthErr === 'oauth2_token_invalid') {
       this.errorMessage = 'Sign-in token was invalid. Please try again.';
     }

@@ -1,90 +1,86 @@
-/* ════════════════════════════════════════════════════════════════
-   auth.styles.scss  –  shared styles for login & signup pages
-   ════════════════════════════════════════════════════════════════ */
-
-/* Design tokens */
 :root {
-  --red:        #FF073B;
-  --red-faint:  rgba(255, 7, 59, 0.08);
-  --red-hover:  #d9002f;
-  --text:       #1a1a2e;
-  --sub:        #6b7280;
-  --border:     #e5e7eb;
-  --bg:         #f9f9fb;
-  --white:      #ffffff;
-  --error:      #dc2626;
-  --radius:     12px;
-  --shadow:     0 20px 60px rgba(0, 0, 0, 0.10);
-  --font-body:  'DM Sans', sans-serif;
+  --red: #ff073b;
+  --red-faint: rgba(255, 7, 59, 0.08);
+  --red-hover: #d9002f;
+  --text: #1a1a2e;
+  --sub: #6b7280;
+  --border: #e5e7eb;
+  --bg: #f9f9fb;
+  --white: #ffffff;
+  --error: #dc2626;
+  --radius: 12px;
+  --shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  --font-body: 'DM Sans', sans-serif;
   --font-title: 'Bebas Neue', sans-serif;
 }
 
-/* ── Page wrapper ──────────────────────────────────────────────── */
 .auth-wrapper {
   min-height: 100vh;
-  display:     flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  background:  var(--bg);
-  padding:     24px;
+  background: var(--bg);
+  padding: 24px;
   font-family: var(--font-body);
 }
 
-/* ── Card ──────────────────────────────────────────────────────── */
 .card {
-  display:               grid;
+  display: grid;
   grid-template-columns: 1fr 1fr;
-  max-width:             960px;
-  width:                 100%;
-  background:            var(--white);
-  border-radius:         var(--radius);
-  box-shadow:            var(--shadow);
-  overflow:              hidden;
+  max-width: 960px;
+  width: 100%;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
 }
 
-/* ── Left column (form) ────────────────────────────────────────── */
 .card__left {
   padding: 56px 48px;
 }
 
 .card__title {
-  font-family:   var(--font-title);
-  font-size:     clamp(28px, 4vw, 40px);
-  color:         var(--text);
+  font-family: var(--font-title);
+  font-size: clamp(28px, 4vw, 40px);
+  color: var(--red);
   letter-spacing: 2px;
   margin-bottom: 8px;
 }
 
 .card__subtitle {
-  font-size:     14px;
-  color:         var(--sub);
+  font-size: 14px;
+  color: var(--sub);
   margin-bottom: 32px;
 }
 
-/* ── Form elements ─────────────────────────────────────────────── */
 .form-group {
-  display:        flex;
+  display: flex;
   flex-direction: column;
-  margin-bottom:  20px;
+  margin-bottom: 20px;
 
   label {
-    font-size:     13px;
-    font-weight:   600;
-    color:         var(--text);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
     margin-bottom: 6px;
   }
 
   input {
-    padding:       10px 14px;
-    border:        1.5px solid var(--border);
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
     border-radius: 8px;
-    font-size:     14px;
-    color:         var(--text);
-    outline:       none;
-    transition:    border-color 0.2s;
+    font-size: 14px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
 
-    &::placeholder { color: #aaa; }
-    &:focus { border-color: var(--red); }
+    &::placeholder {
+      color: #aaa;
+    }
+
+    &:focus {
+      border-color: var(--red);
+    }
   }
 
   &--error input {
@@ -93,151 +89,189 @@
 }
 
 .form-error {
-  font-size:  12px;
-  color:      var(--error);
+  font-size: 12px;
+  color: var(--error);
   margin-top: 4px;
 }
 
-/* ── Buttons ───────────────────────────────────────────────────── */
 .btn {
-  display:         inline-flex;
-  align-items:     center;
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  gap:             10px;
-  padding:         11px 20px;
-  border-radius:   10px;
-  font-size:       14px;
-  font-weight:     600;
-  cursor:          pointer;
-  transition:      background 0.2s, opacity 0.2s;
+  gap: 10px;
+  padding: 11px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s, border-color 0.2s, color 0.2s;
   text-decoration: none;
-  border:          none;
+  border: none;
+  box-sizing: border-box;
 
-  &--full { width: 100%; }
+  &--full {
+    width: 100%;
+  }
 
   &--primary {
-    background:  var(--red);
-    color:       var(--white);
+    background: var(--red);
+    color: var(--white);
     margin-bottom: 16px;
+    box-shadow: 0 12px 24px rgba(255, 7, 59, 0.18);
 
-    &:hover:not(:disabled) { background: var(--red-hover); }
-    &:disabled { opacity: 0.6; cursor: not-allowed; }
+    &:hover:not(:disabled) {
+      background: var(--red-hover);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
   }
 
-  &--google {
+  &--oauth {
     background: var(--white);
-    color:      var(--text);
-    border:     1.5px solid var(--border);
+    color: var(--text);
+    border: 1.5px solid var(--border);
 
-    &:hover { background: var(--bg); }
+    &:hover {
+      background: var(--bg);
+      border-color: rgba(255, 7, 59, 0.28);
+    }
+  }
+
+  &--github {
+    color: #111827;
   }
 }
 
-/* ── Spinner ───────────────────────────────────────────────────── */
+.btn__icon {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+}
+
+.oauth-actions {
+  display: grid;
+  gap: 12px;
+}
+
 .spinner {
-  display:       inline-block;
-  width:         18px;
-  height:        18px;
-  border:        2.5px solid rgba(255, 255, 255, 0.4);
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, 0.4);
   border-top-color: #fff;
   border-radius: 50%;
-  animation:     spin 0.7s linear infinite;
+  animation: spin 0.7s linear infinite;
 }
 
-@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 
-/* ── Divider ───────────────────────────────────────────────────── */
 .divider {
-  display:     flex;
+  display: flex;
   align-items: center;
-  gap:         12px;
-  margin:      20px 0;
-  color:       var(--sub);
-  font-size:   13px;
+  gap: 12px;
+  margin: 20px 0;
+  color: var(--sub);
+  font-size: 13px;
 
-  &::before, &::after {
-    content:    '';
-    flex:       1;
-    height:     1px;
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
     background: var(--border);
   }
 }
 
-/* ── Auth messages ─────────────────────────────────────────────── */
 .auth-message {
-  padding:       10px 14px;
+  padding: 10px 14px;
   border-radius: 8px;
-  font-size:     13px;
+  font-size: 13px;
   margin-bottom: 16px;
 
   &--error {
     background: rgba(220, 38, 38, 0.08);
-    color:      var(--error);
-    border:     1px solid rgba(220, 38, 38, 0.2);
+    color: var(--error);
+    border: 1px solid rgba(220, 38, 38, 0.2);
   }
 
   &--success {
     background: rgba(22, 163, 74, 0.08);
-    color:      #16a34a;
-    border:     1px solid rgba(22, 163, 74, 0.2);
+    color: #16a34a;
+    border: 1px solid rgba(22, 163, 74, 0.2);
   }
 }
 
-/* ── Switch link ───────────────────────────────────────────────── */
 .auth-switch {
   text-align: center;
-  font-size:  13px;
-  color:      var(--sub);
+  font-size: 13px;
+  color: var(--sub);
   margin-top: 20px;
 
   a {
-    color:           var(--red);
-    font-weight:     600;
+    color: var(--red);
+    font-weight: 600;
     text-decoration: none;
 
-    &:hover { text-decoration: underline; }
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 
-/* ── Right column (illustration) ───────────────────────────────── */
 .card__right {
-  background:  linear-gradient(135deg, var(--red-faint) 0%, rgba(255, 7, 59, 0.15) 100%);
-  display:     flex;
+  background: linear-gradient(135deg, var(--red-faint) 0%, rgba(255, 7, 59, 0.15) 100%);
+  display: flex;
   align-items: center;
   justify-content: center;
-  padding:     40px;
-  position:    relative;
-  overflow:    hidden;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
 
   &::before {
-    content:       '';
-    position:      absolute;
-    top:           -40px;
-    right:         -40px;
-    width:         200px;
-    height:        200px;
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
-    background:    rgba(255, 7, 59, 0.07);
+    background: rgba(255, 7, 59, 0.07);
   }
 }
 
 .illustration-wrapper {
-  position:  relative;
-  z-index:   1;
-  max-width: 400px;
-  width:     100%;
+  position: relative;
+  z-index: 1;
+  width: min(100%, 440px);
+  min-height: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.illustration { width: 100%; height: auto; }
+.illustration {
+  width: 100%;
+  height: 100%;
+  max-height: 460px;
+  display: block;
+}
 
-/* ── Responsive ────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .card {
     grid-template-columns: 1fr;
   }
+
   .card__right {
     display: none;
   }
+
   .card__left {
     padding: 40px 28px;
   }

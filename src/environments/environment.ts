@@ -10,4 +10,5 @@ export const environment = {
 
   /** Proxied to the API gateway (see proxy.conf.json) */
   oauth2GoogleUrl: '/oauth2/authorization/google',
+  oauth2GithubUrl: '/oauth2/authorization/github',
 };

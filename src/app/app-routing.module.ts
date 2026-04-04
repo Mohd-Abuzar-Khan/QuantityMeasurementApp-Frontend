@@ -4,60 +4,39 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@core/guards/auth.guard';
 import { OAuth2CallbackComponent } from './features/auth/components/oauth2-callback/oauth2-callback.component';
 
-
 const routes: Routes = [
-
-   {
-    path: 'oauth2/callback',        // matches http://localhost:4200/oauth2/callback
-    component: OAuth2CallbackComponent
-  },
-
-
-  // ── Default redirect ───────────────────────────────────────────────────────
   {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full',
   },
-
-  // ── Public: Authentication ─────────────────────────────────────────────────
   {
     path: 'auth',
     loadChildren: () =>
       import('./features/auth/auth.module').then(m => m.AuthModule),
   },
-
-  // ── OAuth2 redirect target (must match app.oauth2.redirect-uri on the server) ─
   {
     path: 'oauth2/callback',
     component: OAuth2CallbackComponent,
   },
-
-  // ── Protected: Dashboard ───────────────────────────────────────────────────
   {
     path: 'dashboard',
     canActivate: [AuthGuard],
     loadChildren: () =>
       import('./features/dashboard/dashboard.module').then(m => m.DashboardModule),
   },
-
-  // ── Protected: Measurement ─────────────────────────────────────────────────
   {
     path: 'measurement',
     canActivate: [AuthGuard],
     loadChildren: () =>
       import('./features/measurement/measurement.module').then(m => m.MeasurementModule),
   },
-
-  // ── Protected: History ────────────────────────────────────────────────────
   {
     path: 'history',
     canActivate: [AuthGuard],
     loadChildren: () =>
       import('./features/history/history.module').then(m => m.HistoryModule),
   },
-
-  // ── Fallback: redirect unknown paths ─────────────────────────────────────
   {
     path: '**',
     redirectTo: 'dashboard',
@@ -66,7 +45,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {
-    // Scroll to top on every navigation
     scrollPositionRestoration: 'top',
   })],
   exports: [RouterModule],

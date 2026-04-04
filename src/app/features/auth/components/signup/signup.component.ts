@@ -47,6 +47,7 @@ export class SignupComponent implements OnInit {
   successMessage = '';
 
   readonly googleSignupUrl = environment.oauth2GoogleUrl;
+  readonly githubSignupUrl = environment.oauth2GithubUrl;
 
   constructor(
     private readonly fb:          FormBuilder,

@@ -105,19 +105,29 @@ export class AuthService {
   }
 
   /**
+   * Initiates OAuth2 login flow with GitHub.
+   * Redirects to the authorization endpoint configured in the environment.
+   */
+  loginWithGithub(): void {
+    window.location.href = environment.oauth2GithubUrl;
+  }
+
+  /**
    * Handles the JWT token received via the OAuth2 callback URL.
    * Called by the OAuth2CallbackComponent after extracting the token
    * from the query string.
    *
    * @param token  The JWT returned from the backend OAuth2 success handler.
-   * @param username Username decoded from the token (or the email used as username).
-   * @param email  Email address from the OAuth2 provider.
+   * The service derives username/email from the JWT payload when available.
    */
-  handleOAuth2Token(token: string, username: string, email: string): void {
+  handleOAuth2Token(token: string, redirectTo = '/dashboard'): void {
+    const payload = this.decodeJwtPayload(token);
+    const username = String(payload['sub'] ?? payload['email'] ?? 'unknown');
+    const email = String(payload['email'] ?? username);
     const user: CurrentUser = { username, email, token };
     this.persistSession(token, user);
     this.currentUserSubject.next(user);
-    this.navigateAfterAuth('/dashboard');
+    this.navigateAfterAuth(redirectTo);
   }
 
   /**

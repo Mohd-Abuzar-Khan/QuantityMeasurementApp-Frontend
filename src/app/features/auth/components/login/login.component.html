@@ -1,15 +1,10 @@
-<!-- Login page: two-column card matching the original design -->
 <div class="auth-wrapper">
   <div class="card">
-
-    <!-- ── Left column: form ─────────────────────────────────────────────── -->
     <div class="card__left">
       <h1 class="card__title">WELCOME BACK</h1>
       <p class="card__subtitle">Welcome back! Please enter your details.</p>
 
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
-
-        <!-- Username -->
         <div class="form-group" [class.form-group--error]="isInvalid('username')">
           <label for="username">Username</label>
           <input
@@ -29,14 +24,13 @@
           </span>
         </div>
 
-        <!-- Password -->
         <div class="form-group" [class.form-group--error]="isInvalid('password')">
           <label for="password">Password</label>
           <input
             id="password"
             formControlName="password"
             type="password"
-            placeholder="••••••••"
+            placeholder="........"
             autocomplete="current-password"
           />
           <span class="form-error" *ngIf="isInvalid('password')">
@@ -49,94 +43,92 @@
           </span>
         </div>
 
-        <!-- Server-side error -->
         <div class="auth-message auth-message--error" *ngIf="errorMessage" role="alert">
           {{ errorMessage }}
         </div>
 
-        <!-- Submit -->
         <button
           class="btn btn--primary btn--full"
           type="submit"
           [disabled]="isLoading"
         >
           <span *ngIf="!isLoading">Sign in</span>
-          <span *ngIf="isLoading" class="spinner" aria-label="Signing in…"></span>
+          <span *ngIf="isLoading" class="spinner" aria-label="Signing in"></span>
         </button>
 
         <div class="divider"><span>or</span></div>
 
-        <!-- Google OAuth2 -->
-        <a
-          class="btn btn--google btn--full"
-          [href]="googleLoginUrl"
-          role="button"
-          aria-label="Sign in with Google"
-        >
-          <svg viewBox="0 0 48 48" aria-hidden="true" width="20" height="20">
-            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.2 3.6l6.86-6.86C36.05 1.99 30.5 0 24 0 14.62 0 6.48 5.44 2.32 13.39l7.98 6.2C12.44 13.02 17.87 9.5 24 9.5z"/>
-            <path fill="#4285F4" d="M46.5 24.5c0-1.57-.14-3.09-.41-4.55H24v9.11h12.7c-.55 2.95-2.16 5.45-4.56 7.13l7.03 5.44c4.11-3.79 6.33-9.38 6.33-17.13z"/>
-            <path fill="#FBBC05" d="M10.3 28.2c-.49-1.49-.76-3.08-.76-4.7s.27-3.21.76-4.7l-7.98-6.2C.84 16.48 0 20.17 0 23.5c0 3.33.84 7.02 2.32 10.9l7.98-6.2z"/>
-            <path fill="#34A853" d="M24 48c6.5 0 12.05-2.13 16.05-5.78l-7.03-5.44c-1.95 1.32-4.46 2.1-9.02 2.1-6.13 0-11.56-3.52-13.7-8.29l-7.98 6.2C6.48 42.56 14.62 48 24 48z"/>
-          </svg>
-          <span>Sign in with Google</span>
-        </a>
+        <div class="oauth-actions">
+          <a
+            class="btn btn--oauth btn--full"
+            [href]="googleLoginUrl"
+            role="button"
+            aria-label="Sign in with Google"
+          >
+            <svg class="btn__icon" viewBox="0 0 48 48" aria-hidden="true">
+              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.2 3.6l6.86-6.86C36.05 1.99 30.5 0 24 0 14.62 0 6.48 5.44 2.32 13.39l7.98 6.2C12.44 13.02 17.87 9.5 24 9.5z"/>
+              <path fill="#4285F4" d="M46.5 24.5c0-1.57-.14-3.09-.41-4.55H24v9.11h12.7c-.55 2.95-2.16 5.45-4.56 7.13l7.03 5.44c4.11-3.79 6.33-9.38 6.33-17.13z"/>
+              <path fill="#FBBC05" d="M10.3 28.2c-.49-1.49-.76-3.08-.76-4.7s.27-3.21.76-4.7l-7.98-6.2C.84 16.48 0 20.17 0 23.5c0 3.33.84 7.02 2.32 10.9l7.98-6.2z"/>
+              <path fill="#34A853" d="M24 48c6.5 0 12.05-2.13 16.05-5.78l-7.03-5.44c-1.95 1.32-4.46 2.1-9.02 2.1-6.13 0-11.56-3.52-13.7-8.29l-7.98 6.2C6.48 42.56 14.62 48 24 48z"/>
+            </svg>
+            <span>Sign in with Google</span>
+          </a>
+
+          <a
+            class="btn btn--oauth btn--github btn--full"
+            [href]="githubLoginUrl"
+            role="button"
+            aria-label="Sign in with GitHub"
+          >
+            <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="currentColor" d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2.18c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.27-1.68-1.27-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.76 2.68 1.25 3.33.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.27-5.24-5.68 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.47.11-3.05 0 0 .97-.31 3.16 1.18a10.9 10.9 0 0 1 5.75 0c2.18-1.49 3.15-1.18 3.15-1.18.62 1.58.23 2.76.11 3.05.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.38-5.25 5.67.41.36.78 1.08.78 2.18v3.23c0 .31.21.68.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/>
+            </svg>
+            <span>Sign in with GitHub</span>
+          </a>
+        </div>
 
         <p class="auth-switch">
           Don't have an account?
           <a routerLink="/auth/register">Sign up for free!</a>
         </p>
-
       </form>
     </div>
 
-    <!-- ── Right column: illustration ────────────────────────────────────── -->
     <div class="card__right" aria-hidden="true">
       <div class="illustration-wrapper">
-        <!-- Quantity measurement SVG illustration -->
-        <svg class="illustration"
+        <svg
+          class="illustration"
           viewBox="0 0 680 520"
           xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="xMidYMid meet">
+          preserveAspectRatio="xMidYMid meet"
+        >
+          <rect x="22" y="22" width="636" height="476" rx="28" fill="#ffffff" fill-opacity="0.72" />
+          <text x="340" y="68" text-anchor="middle" font-size="22" font-family="sans-serif" fill="#FF073B">Quantity Measurement</text>
 
-          <text x="340" y="52" text-anchor="middle" font-size="22"
-                font-family="sans-serif" fill="#FF073B">Quantity Measurement</text>
-
-          <!-- Beaker (Volume) -->
-          <g transform="translate(80, 90)">
-            <path d="M30 0 L30 200 Q30 220 50 220 L110 220 Q130 220 130 200 L130 0 Z"
-                  fill="#FF073B" fill-opacity="0.08" stroke="#FF073B" stroke-width="2"/>
-            <rect x="31" y="100" width="98" height="119"
-                  fill="#FF073B" fill-opacity="0.35"/>
-            <text x="80" y="245" text-anchor="middle" font-size="12"
-                  font-family="sans-serif" fill="#FF073B">Volume (mL)</text>
+          <g transform="translate(80, 102)">
+            <path d="M30 0 L30 200 Q30 220 50 220 L110 220 Q130 220 130 200 L130 0 Z" fill="#FF073B" fill-opacity="0.08" stroke="#FF073B" stroke-width="2"/>
+            <rect x="31" y="100" width="98" height="119" fill="#FF073B" fill-opacity="0.35"/>
+            <text x="80" y="250" text-anchor="middle" font-size="12" font-family="sans-serif" fill="#FF073B">Volume (mL)</text>
           </g>
 
-          <!-- Ruler (Length) -->
-          <g transform="translate(250, 100)">
-            <rect x="0" y="0" width="240" height="50" rx="6"
-                  fill="#FF073B" fill-opacity="0.08" stroke="#FF073B" stroke-width="2"/>
-            <text x="120" y="70" text-anchor="middle" font-size="12"
-                  font-family="sans-serif" fill="#FF073B">Length (cm)</text>
+          <g transform="translate(250, 102)">
+            <rect x="0" y="0" width="240" height="50" rx="6" fill="#FF073B" fill-opacity="0.08" stroke="#FF073B" stroke-width="2"/>
+            <text x="120" y="70" text-anchor="middle" font-size="12" font-family="sans-serif" fill="#FF073B">Length (cm)</text>
           </g>
 
-          <!-- Bar Chart (Count) -->
-          <g transform="translate(248, 195)">
-            <line x1="30" y1="0"   x2="30"  y2="185" stroke="#FF073B" stroke-width="1.5"/>
+          <g transform="translate(248, 205)">
+            <line x1="30" y1="0" x2="30" y2="185" stroke="#FF073B" stroke-width="1.5"/>
             <line x1="30" y1="185" x2="250" y2="185" stroke="#FF073B" stroke-width="1.5"/>
-            <rect x="45"  y="85"  width="36" height="100" rx="3" fill="#FF073B" fill-opacity="0.85"/>
-            <rect x="100" y="35"  width="36" height="150" rx="3" fill="#FF073B"/>
-            <rect x="155" y="110" width="36" height="75"  rx="3" fill="#FF073B" fill-opacity="0.65"/>
-            <rect x="210" y="60"  width="36" height="125" rx="3" fill="#FF073B" fill-opacity="0.75"/>
-            <text x="140" y="220" text-anchor="middle" font-size="12"
-                  font-family="sans-serif" fill="#FF073B">Quantity per group</text>
+            <rect x="45" y="85" width="36" height="100" rx="3" fill="#FF073B" fill-opacity="0.85"/>
+            <rect x="100" y="35" width="36" height="150" rx="3" fill="#FF073B"/>
+            <rect x="155" y="110" width="36" height="75" rx="3" fill="#FF073B" fill-opacity="0.65"/>
+            <rect x="210" y="60" width="36" height="125" rx="3" fill="#FF073B" fill-opacity="0.75"/>
+            <text x="140" y="220" text-anchor="middle" font-size="12" font-family="sans-serif" fill="#FF073B">Quantity per group</text>
           </g>
 
-          <text x="340" y="480" text-anchor="middle" font-size="12"
-                font-family="sans-serif" fill="#888">Four dimensions of physical quantity</text>
+          <text x="340" y="468" text-anchor="middle" font-size="12" font-family="sans-serif" fill="#888">Four dimensions of physical quantity</text>
         </svg>
       </div>
     </div>
-
   </div>
 </div>

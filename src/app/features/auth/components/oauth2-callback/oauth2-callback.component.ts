@@ -1,33 +1,31 @@
-// oauth2-callback.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { AuthService } from '@core/services/auth.service';
+
 @Component({
   selector: 'app-oauth2-callback',
-  template: `<p>Authenticating...</p>`
+  template: `<p>Authenticating...</p>`,
 })
 export class OAuth2CallbackComponent implements OnInit {
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly authService: AuthService,
   ) {}
 
   ngOnInit(): void {
-    // Read token from URL query param
     const token = this.route.snapshot.queryParamMap.get('token');
+    const error = this.route.snapshot.queryParamMap.get('error');
 
     if (token) {
-      // Store token — same place you store your regular JWT
-      localStorage.setItem('auth_token', token);
-      console.log('OAuth2 login successful');
-
-      // Redirect to your main page
-      this.router.navigate(['/dashboard']);
-    } else {
-      // No token — something went wrong
-      console.error('OAuth2 callback: no token received');
-      this.router.navigate(['/login']);
+      this.authService.handleOAuth2Token(token);
+      return;
     }
+
+    this.router.navigate(['/auth/login'], {
+      queryParams: { error: error ?? 'oauth2_token_invalid' },
+    });
   }
 }
